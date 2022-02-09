@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import contract from "../contracts/dogeVerse.json";
-import Footer from "../components/Footer";
-import Preview from "../components/Preview";
-import Navbar from "../components/Navbar";
-import { Button, MintBox, BottomPin, Wrapper } from "./preMintElements";
+import contract from "../../contracts/dogeVerse.json";
+import Footer from "../../components/Footer";
+import Preview from "../../components/Preview";
+import Navbar from "../../components/Navbar";
+import {
+  Button,
+  MintBox,
+  BottomPin,
+  Wrapper,
+  InfoWrapper,
+  InfoDiv,
+  InfoGif,
+  InfoH1,
+  InfoP,
+} from "./preMintElements";
 
 const contractAddress = "0x634a5A9cE5D9718a229fC66A024F0C16Fe5B99fb";
 const abi = contract.abi;
@@ -95,11 +105,21 @@ const PreMint = () => {
     <>
       <Wrapper>
         <Navbar />
-        <MintBox>
-          <Button>
-            {currentAccount ? mintNftButton() : connectWalletButton()}
-          </Button>
-        </MintBox>
+        <InfoWrapper>
+          <InfoDiv>
+            <InfoH1>HURRY GRAB ONE OF THE FIRST 800!</InfoH1>
+            <InfoP>
+              The first 800 of the DogeVerse collection will be free. This will
+              be first come, first serve.
+            </InfoP>
+          </InfoDiv>
+          <MintBox>
+            <Button>
+              {currentAccount ? mintNftButton() : connectWalletButton()}
+            </Button>
+            <InfoP>0/800</InfoP>
+          </MintBox>
+        </InfoWrapper>
         <BottomPin>
           <Preview />
           <Footer />

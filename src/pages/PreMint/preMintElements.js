@@ -8,8 +8,28 @@ export const Wrapper = styled.div`
   align-items: center;
 `;
 
+export const InfoWrapper = styled.div`
+  background: black;
+  display: flex;
+  flex-direction: row;
+`;
+
+export const InfoDiv = styled.div`
+  width: 100%;
+  text-align: center;
+`;
+
+export const InfoH1 = styled.h1`
+  color: white;
+`;
+
+export const InfoP = styled.div`
+  padding-top: 25px;
+  color: white;
+`;
+
 export const MintBox = styled.div`
-  padding-top: 100px;
+  margin: auto;
   width: 100%;
   text-align: center;
 `;

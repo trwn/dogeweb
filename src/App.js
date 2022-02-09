@@ -2,8 +2,8 @@ import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages";
-import PreMint from "./pages/preMint";
-import ComingSoon from './pages/comingSoon';
+import PreMint from "./pages/PreMint/preMint";
+import ComingSoon from "./pages/ComingSoon/comingSoon";
 
 function App() {
   return (

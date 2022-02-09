@@ -2,8 +2,6 @@ import styled from "styled-components";
 
 export const ScrollingGiF = styled.div`
   height: 480px;
-  background-size: cover;
-  object-fit: cover;
 `;
 
 export const Video = styled.video`

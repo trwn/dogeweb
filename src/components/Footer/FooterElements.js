@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
 export const FooterContainer = styled.footer`
-background-color: #b17e37;
-align-items: center;
-
+  background-color: #b17e37;
+  align-items: center;
 `;
 
 export const FooterWrap = styled.div`
@@ -22,7 +21,6 @@ export const SocialMediaWrap = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
 
   @media screen and (max-width: 820px) {
     flex-direction: column;
@@ -37,7 +35,6 @@ export const SocialLogo = styled.img`
   background: none;
   border: none;
   height: 60px;
-  margin-left: 50px;
 `;
 
 export const SocialIcons = styled.div`

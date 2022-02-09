@@ -164,10 +164,6 @@ const HeroSection = () => {
 
   return (
     <HeroContainer>
-      <HeroBg>
-        <HeroLogo src={logo} />
-        <ImageBg />
-      </HeroBg>
       <HeroContent>
         <Grid src={grid}></Grid>
         <MintDiv>

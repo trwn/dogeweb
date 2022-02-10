@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { useWeb3React } from "@web3-react/core";
 import { ethers } from "ethers";
-import contract from "../contracts/dogeVerse.json";
-import Footer from "../components/Footer";
-import Preview from "../components/Preview";
+import contract from "../../contracts/dogeVerse.json";
+import Footer from "../../components/Footer";
+import Preview from "../../components/Preview";
+import Navbar from "../../components/Navbar";
 import {
-  PreBg,
-  PreContainer,
-  PreLogo,
   Button,
   MintBox,
-  MintDiv,
-  PreAbout,
-} from './preMintElements'
-import logo from "../images/logo.png";
+  BottomPin,
+  Wrapper,
+  InfoWrapper,
+  InfoDiv,
+  InfoH1,
+  InfoP,
+} from "./preMintElements";
 
-const contractAddress = "0x634a5A9cE5D9718a229fC66A024F0C16Fe5B99fb";
+const contractAddress = "0x4E010E3C8e7E7aA3FD7c41854d43a12f456c4818";
 const abi = contract.abi;
 
 const PreMint = () => {
   const [currentAccount, setCurrentAccount] = useState(null);
+  const [supply, setSupply] = useState("0");
 
   const connect = async () => {
     const { ethereum } = window;
@@ -60,7 +61,7 @@ const PreMint = () => {
     }
   };
 
-  const mintNft = async () => {
+  const mintFreeNft = async () => {
     try {
       const { ethereum } = window;
 
@@ -70,15 +71,17 @@ const PreMint = () => {
         const nftContract = new ethers.Contract(contractAddress, abi, signer);
 
         console.log("Initialize payment");
-        let nftTxn = await nftContract.mint(1, {
+        let nftTxn = await nftContract.freeMint({
           value: ethers.utils.parseEther("0.00"),
         });
 
         console.log("Mining... please wait");
         await nftTxn.wait();
 
+        await supplyLeft().wait();
+
         console.log(
-          `Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`
+          `Minted, see transaction: https://etherscan.io/tx/${nftTxn.hash}`
         );
       } else {
         console.log("Ethereum object does not exist");
@@ -88,32 +91,59 @@ const PreMint = () => {
     }
   };
 
+  const supplyLeft = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const nftContract = new ethers.Contract(contractAddress, abi, provider);
+        const bigNumber = await nftContract.totalSupply();
+
+        setSupply(bigNumber.toString());
+      } else {
+        console.log("Ethereum object does not exist");
+      }
+    } catch (err) {
+      return;
+    }
+  };
+
   const connectWalletButton = () => {
     return <Button onClick={connect}>Connect Wallet</Button>;
   };
 
   const mintNftButton = () => {
-    return <Button onClick={mintNft}>Mint</Button>;
+    return <Button onClick={mintFreeNft}>Mint</Button>;
   };
 
   useEffect(() => {
     checkIfWalletIsConnected();
+    supplyLeft();
   }, []);
 
   return (
     <>
-    <PreBg>
-      <PreLogo src={logo}></PreLogo>
-    </PreBg>
-    <MintDiv>
-    <MintBox>
-      <Button>
-        {currentAccount ? mintNftButton() : connectWalletButton()}
-      </Button>
-    </MintBox>
-    </MintDiv>
-    <Preview/>
-    <Footer/>
+      <Wrapper>
+        <Navbar />
+        <InfoWrapper>
+          <InfoDiv>
+            <InfoH1>HURRY GRAB ONE OF THE FIRST 800!</InfoH1>
+            <InfoP>
+              The first 800 of the DogeVerse collection will be free. This will
+              be first come, first serve.
+            </InfoP>
+          </InfoDiv>
+          <MintBox>
+            {currentAccount ? mintNftButton() : connectWalletButton()}
+            <InfoP>{supply}/800</InfoP>
+          </MintBox>
+        </InfoWrapper>
+        <BottomPin>
+          <Preview />
+          <Footer />
+        </BottomPin>
+      </Wrapper>
     </>
   );
 };

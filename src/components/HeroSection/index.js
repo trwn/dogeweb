@@ -40,6 +40,7 @@ const HeroSection = () => {
   const { active, activate, account } = useWeb3React();
   const [currentAccount, setCurrentAccount] = useState(null);
   const [amount, setAmount] = useState(1);
+  const [supply, setSupply] = useState("0");
   const [connected, setConnected] = useState("Connect Wallet");
   const [feedback, setFeedback] = useState("");
 
@@ -94,31 +95,7 @@ const HeroSection = () => {
     }
   };
 
-  // const mintNft = async (_amount) => {
-  //   try {
-  //     const { ethereum } = window;
-
-  //     if (ethereum) {
-  //       const provider = new ethers.providers.Web3Provider(ethereum);
-  //       const signer = provider.getSigner();
-  //       const nftContract = new ethers.Contract(contractAddress, abi, signer);
-  //       let ethAmount = (0.01 * _amount).toString();
-
-  //       const mintNft = await nftContract.mint(_amount, {
-  //         value: ethers.utils.parseEther(ethAmount),
-  //       });
-  //       setFeedback("Minting your NFT!!!");
-  //       await mintNft.wait();
-  //       setFeedback("Finished! Check it out on Opensea!");
-  //     } else {
-  //       console.log("Ethereum object does not exist!");
-  //     }
-  //   } catch (err) {
-  //     setFeedback("Not enough ETH!");
-  //   }
-  // };
-
-  const mintNft = async () => {
+  const mintNft = async (_amount) => {
     try {
       const { ethereum } = window;
 
@@ -126,25 +103,49 @@ const HeroSection = () => {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const nftContract = new ethers.Contract(contractAddress, abi, signer);
+        let ethAmount = (0.05 * _amount).toString();
 
-        console.log("Initialize payment");
-        let nftTxn = await nftContract.mint(1, {
-          value: ethers.utils.parseEther("0.00"),
+        const mintNft = await nftContract.mint(_amount, {
+          value: ethers.utils.parseEther(ethAmount),
         });
-
-        console.log("Mining... please wait");
-        await nftTxn.wait();
-
-        console.log(
-          `Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`
-        );
+        setFeedback("Minting your NFT!!!");
+        await mintNft.wait();
+        setFeedback("Finished! Check it out on Opensea!");
       } else {
-        console.log("Ethereum object does not exist");
+        console.log("Ethereum object does not exist!");
       }
     } catch (err) {
-      console.log(err);
+      setFeedback("Not enough ETH!");
     }
   };
+
+  // const mintNft = async () => {
+  //   try {
+  //     const { ethereum } = window;
+
+  //     if (ethereum) {
+  //       const provider = new ethers.providers.Web3Provider(ethereum);
+  //       const signer = provider.getSigner();
+  //       const nftContract = new ethers.Contract(contractAddress, abi, signer);
+
+  //       console.log("Initialize payment");
+  //       let nftTxn = await nftContract.mint(1, {
+  //         value: ethers.utils.parseEther("0.05"),
+  //       });
+
+  //       console.log("Mining... please wait");
+  //       await nftTxn.wait();
+
+  //       console.log(
+  //         `Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`
+  //       );
+  //     } else {
+  //       console.log("Ethereum object does not exist");
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const connectWalletButton = () => {
     return (
@@ -155,19 +156,43 @@ const HeroSection = () => {
   };
 
   const mintNftButton = () => {
-    return <Button onClick={mintNft}>Mint</Button>;
+    return (
+      <Button
+        onClick={(e) => {
+          e.preventDefault();
+          mintNft(amount);
+        }}
+      >
+        Mint
+      </Button>
+    );
+  };
+
+  const supplyLeft = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const nftContract = new ethers.Contract(contractAddress, abi, provider);
+        const bigNumber = await nftContract.totalSupply();
+
+        setSupply(bigNumber.toString());
+      } else {
+        console.log("Ethereum object does not exist");
+      }
+    } catch (err) {
+      return;
+    }
   };
 
   useEffect(() => {
     checkIfWalletIsConnected();
+    supplyLeft();
   }, []);
 
   return (
     <HeroContainer>
-      <HeroBg>
-        <HeroLogo src={logo} />
-        <ImageBg />
-      </HeroBg>
       <HeroContent>
         <Grid src={grid}></Grid>
         <MintDiv>

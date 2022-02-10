@@ -11,16 +11,16 @@ import {
   Wrapper,
   InfoWrapper,
   InfoDiv,
-  InfoGif,
   InfoH1,
   InfoP,
 } from "./preMintElements";
 
-const contractAddress = "0x634a5A9cE5D9718a229fC66A024F0C16Fe5B99fb";
+const contractAddress = "0x4E010E3C8e7E7aA3FD7c41854d43a12f456c4818";
 const abi = contract.abi;
 
 const PreMint = () => {
   const [currentAccount, setCurrentAccount] = useState(null);
+  const [supply, setSupply] = useState("0");
 
   const connect = async () => {
     const { ethereum } = window;
@@ -61,7 +61,7 @@ const PreMint = () => {
     }
   };
 
-  const mintNft = async () => {
+  const mintFreeNft = async () => {
     try {
       const { ethereum } = window;
 
@@ -71,7 +71,7 @@ const PreMint = () => {
         const nftContract = new ethers.Contract(contractAddress, abi, signer);
 
         console.log("Initialize payment");
-        let nftTxn = await nftContract.mint(1, {
+        let nftTxn = await nftContract.freeMint({
           value: ethers.utils.parseEther("0.00"),
         });
 
@@ -89,16 +89,35 @@ const PreMint = () => {
     }
   };
 
+  const supplyLeft = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const nftContract = new ethers.Contract(contractAddress, abi, provider);
+        const bigNumber = await nftContract.totalSupply();
+
+        setSupply(bigNumber.toString());
+      } else {
+        console.log("Ethereum object does not exist");
+      }
+    } catch (err) {
+      return;
+    }
+  };
+
   const connectWalletButton = () => {
     return <Button onClick={connect}>Connect Wallet</Button>;
   };
 
   const mintNftButton = () => {
-    return <Button onClick={mintNft}>Mint</Button>;
+    return <Button onClick={mintFreeNft}>Mint</Button>;
   };
 
   useEffect(() => {
     checkIfWalletIsConnected();
+    supplyLeft();
   }, []);
 
   return (
@@ -114,10 +133,8 @@ const PreMint = () => {
             </InfoP>
           </InfoDiv>
           <MintBox>
-            <Button>
-              {currentAccount ? mintNftButton() : connectWalletButton()}
-            </Button>
-            <InfoP>0/800</InfoP>
+            {currentAccount ? mintNftButton() : connectWalletButton()}
+            <InfoP>{supply}/800</InfoP>
           </MintBox>
         </InfoWrapper>
         <BottomPin>

@@ -78,6 +78,8 @@ const PreMint = () => {
         console.log("Mining... please wait");
         await nftTxn.wait();
 
+        await supplyLeft().wait();
+
         console.log(
           `Minted, see transaction: https://etherscan.io/tx/${nftTxn.hash}`
         );

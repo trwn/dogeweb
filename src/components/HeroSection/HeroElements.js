@@ -11,44 +11,16 @@ export const HeroContainer = styled.div`
   object-fit: cover;
 `;
 
-export const HeroBg = styled.div`
-  position: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #de9e45;
-`;
-
-export const ImageBg = styled.img`
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-  object-fit: cover;
-  background: black;
-`;
-
-export const HeroDiv = styled.div`
-  color: white;
-  padding-top: 10px;
-`;
-
 export const HeroContent = styled.div`
   position: absolute;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   background: black;
-`;
 
-export const HeroLogo = styled.img`
-  display: flex;
-  height: 75px;
-  margin-left: auto;
-  margin-right: auto;
-  background: #de9e45;
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const Grid = styled.img`
@@ -163,15 +135,11 @@ export const Then = styled.p`
   margin: 10px;
 `;
 
-export const NewDiv = styled.div`
+export const Mint = styled.div`
   position: relative;
   text-align: center;
   width: 100%;
   padding-top: 20px;
-`;
-
-export const Spacer = styled.div`
-  height: 10px;
 `;
 
 export const MintCText = styled.div`
@@ -227,12 +195,10 @@ export const Minted = styled.div`
 `;
 
 export const MintInput = styled.div`
-  color: white;
-  background: #282828;
-  margin: 0 auto;
+  display: flex;
+  padding: 10px 35px;
   width: 100%;
   position: relative;
-  padding-top: 10px;
-  margin-top: 20px;
+  margin-top: 30px;
   align-items: center;
 `;

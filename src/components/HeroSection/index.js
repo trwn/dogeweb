@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useWeb3React } from "@web3-react/core";
 import { ethers } from "ethers";
-import { injected } from "../Wallet/connectors";
 import contract from "../../contracts/dogeVerse.json";
-import logo from "../../images/logo.png";
 import grid from "../../images/grid.png";
 
 import {
   HeroContainer,
-  HeroBg,
-  ImageBg,
   HeroContent,
-  HeroLogo,
   Grid,
   MintDiv,
   MiniAbout,
@@ -25,22 +19,21 @@ import {
   Plus,
   Input,
   Minus,
-  NewDiv,
-  Spacer,
+  Mint,
   PriceText,
   MintCText,
   PriceText2,
   MintCText2,
 } from "./HeroElements";
 
-const contractAddress = "0x634a5A9cE5D9718a229fC66A024F0C16Fe5B99fb";
+const contractAddress = "0x4E010E3C8e7E7aA3FD7c41854d43a12f456c4818";
 const abi = contract.abi;
 
 const HeroSection = () => {
-  const { active, activate, account } = useWeb3React();
   const [currentAccount, setCurrentAccount] = useState(null);
   const [amount, setAmount] = useState(1);
   const [supply, setSupply] = useState("0");
+  const [walletBalance, setWalletBalance] = useState("0");
   const [connected, setConnected] = useState("Connect Wallet");
   const [feedback, setFeedback] = useState("");
 
@@ -119,33 +112,45 @@ const HeroSection = () => {
     }
   };
 
-  // const mintNft = async () => {
-  //   try {
-  //     const { ethereum } = window;
+  const supplyLeft = async () => {
+    try {
+      const { ethereum } = window;
 
-  //     if (ethereum) {
-  //       const provider = new ethers.providers.Web3Provider(ethereum);
-  //       const signer = provider.getSigner();
-  //       const nftContract = new ethers.Contract(contractAddress, abi, signer);
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const nftContract = new ethers.Contract(contractAddress, abi, provider);
+        const bigNumber = await nftContract.totalSupply();
 
-  //       console.log("Initialize payment");
-  //       let nftTxn = await nftContract.mint(1, {
-  //         value: ethers.utils.parseEther("0.05"),
-  //       });
+        setSupply(bigNumber.toString());
+      } else {
+        console.log("Ethereum object does not exist");
+      }
+    } catch (err) {
+      return;
+    }
+  };
 
-  //       console.log("Mining... please wait");
-  //       await nftTxn.wait();
+  const balance = async () => {
+    try {
+      const { ethereum } = window;
 
-  //       console.log(
-  //         `Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`
-  //       );
-  //     } else {
-  //       console.log("Ethereum object does not exist");
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const nftContract = new ethers.Contract(contractAddress, abi, signer);
+
+        const accounts = await ethereum.request({ method: "eth_accounts" });
+
+        const bigNumber = await nftContract.balanceOf(accounts[0]);
+
+        setWalletBalance(bigNumber.toString());
+      } else {
+        console.log("Ethereum object does not exist");
+      }
+    } catch (err) {
+      return;
+    }
+  };
 
   const connectWalletButton = () => {
     return (
@@ -168,27 +173,10 @@ const HeroSection = () => {
     );
   };
 
-  const supplyLeft = async () => {
-    try {
-      const { ethereum } = window;
-
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const nftContract = new ethers.Contract(contractAddress, abi, provider);
-        const bigNumber = await nftContract.totalSupply();
-
-        setSupply(bigNumber.toString());
-      } else {
-        console.log("Ethereum object does not exist");
-      }
-    } catch (err) {
-      return;
-    }
-  };
-
   useEffect(() => {
     checkIfWalletIsConnected();
     supplyLeft();
+    balance();
   }, []);
 
   return (
@@ -204,14 +192,13 @@ const HeroSection = () => {
           <Then>Then 0.05Ξ each (max 15 NFT / tx.)</Then>
           <Minted>
             <MintCText>Minted</MintCText>
-            <MintCText2>Count</MintCText2>
+            <MintCText2>{supply}/8888</MintCText2>
           </Minted>
           <Price>
             <PriceText>Price</PriceText>
             <PriceText2>0.05Ξ</PriceText2>
           </Price>
-
-          <NewDiv>
+          <Mint>
             <MintInput>
               <Minus onClick={decrementCount}>-</Minus>
               <Input
@@ -220,12 +207,11 @@ const HeroSection = () => {
               />
               <Plus onClick={incrementCount}>+</Plus>
             </MintInput>
-            <Spacer></Spacer>
             <Button>
               {currentAccount ? mintNftButton() : connectWalletButton()}
             </Button>
-          </NewDiv>
-          <MyNFT>My total NFT minted (pull data from wallet)</MyNFT>
+          </Mint>
+          <MyNFT>My total NFT minted: {walletBalance}</MyNFT>
         </MintDiv>
       </HeroContent>
     </HeroContainer>

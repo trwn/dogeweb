@@ -114,10 +114,8 @@ export const Button = styled.button`
 
 export const MyNFT = styled.p`
   color: white;
-  background: #282828;
-  position: absolute;
   margin-top: 25px;
-  margin-left: 18%;
+  text-align: center;
 `;
 
 export const First = styled.p`

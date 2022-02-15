@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useWeb3React } from "@web3-react/core";
 import { ethers } from "ethers";
 import contract from "../../contracts/dogeVerse.json";
 import grid from "../../images/grid.png";
@@ -113,27 +112,6 @@ const HeroSection = () => {
     }
   };
 
-  const connectWalletButton = () => {
-    return (
-      <Button onClick={connect} className="cta-button connect-wallet-button">
-        Connect Wallet
-      </Button>
-    );
-  };
-
-  const mintNftButton = () => {
-    return (
-      <Button
-        onClick={(e) => {
-          e.preventDefault();
-          mintNft(amount);
-        }}
-      >
-        Mint
-      </Button>
-    );
-  };
-
   const supplyLeft = async () => {
     try {
       const { ethereum } = window;
@@ -160,7 +138,10 @@ const HeroSection = () => {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const nftContract = new ethers.Contract(contractAddress, abi, signer);
-        const bigNumber = await nftContract.balanceOf(currentAccount);
+
+        const accounts = await ethereum.request({ method: "eth_accounts" });
+
+        const bigNumber = await nftContract.balanceOf(accounts[0]);
 
         setWalletBalance(bigNumber.toString());
       } else {
@@ -169,6 +150,27 @@ const HeroSection = () => {
     } catch (err) {
       return;
     }
+  };
+
+  const connectWalletButton = () => {
+    return (
+      <Button onClick={connect} className="cta-button connect-wallet-button">
+        Connect Wallet
+      </Button>
+    );
+  };
+
+  const mintNftButton = () => {
+    return (
+      <Button
+        onClick={(e) => {
+          e.preventDefault();
+          mintNft(amount);
+        }}
+      >
+        Mint
+      </Button>
+    );
   };
 
   useEffect(() => {
@@ -209,7 +211,7 @@ const HeroSection = () => {
               {currentAccount ? mintNftButton() : connectWalletButton()}
             </Button>
           </Mint>
-          <MyNFT>My total NFT minted {walletBalance}</MyNFT>
+          <MyNFT>My total NFT minted: {walletBalance}</MyNFT>
         </MintDiv>
       </HeroContent>
     </HeroContainer>

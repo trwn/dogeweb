@@ -3,9 +3,11 @@ import styled from "styled-components";
 export const InfoContrainer = styled.div`
   background: black;
   display: flex;
+  max-height: 200px;
 
   @media screen and (max-width: 768px) {
     padding: 100px 0;
+    margin-top: -100px;
   }
 `;
 

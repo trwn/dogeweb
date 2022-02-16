@@ -24,6 +24,6 @@ export const Data = [
   },
   {
     question: "Charity?",
-    answer: "Upon sellout, our team will donate 5 ETH to 5 charities.",
+    answer: "Upon sellout, our team will donate 20 ETH to Dog Charities.",
   },
 ];

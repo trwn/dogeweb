@@ -6,8 +6,12 @@ export const FaqSection = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  height: 1100px;
+  height: 1000px;
   background: black;
+  @media screen and (max-width: 767px) {
+    height: 700px;
+    padding-top: 20px;
+  }
 `;
 
 export const Container = styled.div`
@@ -21,20 +25,32 @@ export const Wrap = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 750px;
   text-align: center;
   cursor: pointer;
   border-radius: 10px;
   margin-top: 10px;
 
+  @media screen and (max-width: 767px){
+    width: 330px;
+  }
+
   h1 {
     padding: 2rem;
-    font-size: 2rem;
+    font-size: 1.5rem;
+    @media screen and (max-width: 767px) {
+    font-size: 0.7rem;
+    white-space: nowrap;
+    
+    
+  }
   }
 
   span {
     margin-right: 1.5rem;
   }
+
+  
 `;
 
 export const Dropdown = styled.div`
@@ -48,10 +64,19 @@ export const Dropdown = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  height: 90px;
+  @media screen and (max-width: 767px){
+    width: 300px;
+  }
 
   p {
     padding: 1rem;
-    font-size: 2rem;
+    font-size: 1rem;
+    @media screen and (max-width: 767px){
+    width: 300px;
+    font-size: 0.5rem;
+  }
   }
 `;
 
@@ -63,4 +88,5 @@ export const Heading = styled.h1`
   color: white;
   text-shadow: -2px 3px black;
   text-align: center;
+  padding-top: 10px;
 `;

@@ -4,21 +4,29 @@ export const HeroContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 800px;
+  height: auto;
   position: relative;
   z-index: 1;
   background: black;
   object-fit: cover;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  max-width: 100%;
+  overflow: hidden;
 `;
 
 export const HeroContent = styled.div`
-  position: absolute;
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
   background: black;
+  max-width: 100%;
+  max-height: auto;
+  justify-content: center;
 
-  @media screen and (max-width: 768px) {
+
+  @media screen and (max-width: 1050px) {
     grid-template-columns: 1fr;
   }
 `;
@@ -27,9 +35,13 @@ export const Grid = styled.img`
   height: 500px;
   position: relative;
   border-radius: 25px;
-  margin-right: 25px;
   margin-top: auto;
   margin-bottom: auto;
+  @media screen and (max-width: 767px) {
+    height: 360px;
+    width: 360px;
+    padding-left: 10px;
+  }
 `;
 
 export const MintDiv = styled.div`
@@ -38,6 +50,14 @@ export const MintDiv = styled.div`
   position: relative;
   background: #282828;
   border-radius: 25px;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding-left: 25px;
+  @media screen and (max-width: 767px) {
+  height: 450px;
+  width: 360px;
+  }
+  
 `;
 
 export const MiniAbout = styled.p`
@@ -46,6 +66,7 @@ export const MiniAbout = styled.p`
   position: relative;
   margin: 10px;
   padding-top: 15px;
+  
 `;
 
 export const Plus = styled.button`
@@ -97,6 +118,9 @@ export const Input = styled.input`
   color: white;
   text-align: center;
   position: relative;
+  @media screen and (max-width: 767px) {
+    width: 210px;
+  }
 `;
 
 export const Button = styled.button`
@@ -110,12 +134,19 @@ export const Button = styled.button`
   border-radius: 10px;
   border: none;
   cursor: pointer;
+  @media screen and (max-width: 767px) {
+    width: 310px;
+  }
 `;
 
 export const MyNFT = styled.p`
   color: white;
   margin-top: 25px;
   text-align: center;
+
+  @media screen and (max-width: 767px) {
+    margin-left: -25px;
+  }
 `;
 
 export const First = styled.p`
@@ -138,6 +169,10 @@ export const Mint = styled.div`
   text-align: center;
   width: 100%;
   padding-top: 20px;
+  @media screen and (max-width: 767px) {
+    margin-left: -15px;
+  }
+
 `;
 
 export const MintCText = styled.div`
@@ -145,6 +180,10 @@ export const MintCText = styled.div`
   font-size: 24px;
   position: absolute;
   padding-left: 30px;
+
+  @media screen and (max-width: 767px) {
+  width: 310px;
+  }
 `;
 
 export const PriceText2 = styled.div`
@@ -152,6 +191,10 @@ export const PriceText2 = styled.div`
   font-size: 24px;
   position: absolute;
   padding-left: 360px;
+
+  @media screen and (max-width: 767px) {
+  padding-left: 240px;
+  }
 `;
 
 export const MintCText2 = styled.div`
@@ -159,6 +202,10 @@ export const MintCText2 = styled.div`
   font-size: 24px;
   position: absolute;
   padding-left: 365px;
+
+  @media screen and (max-width: 767px) {
+  padding-left: 230px;
+  }
 `;
 
 export const PriceText = styled.div`
@@ -177,6 +224,9 @@ export const Price = styled.div`
   margin: 10px;
   align-items: center;
   border-radius: 10px;
+  @media screen and (max-width: 767px) {
+  width: 310px;
+  }
 `;
 
 export const Minted = styled.div`
@@ -190,6 +240,10 @@ export const Minted = styled.div`
   border-radius: 10px;
   align-items: center;
   vertical-align: middle;
+  @media screen and (max-width: 767px) {
+  width: 310px;
+  }
+ 
 `;
 
 export const MintInput = styled.div`
@@ -199,4 +253,9 @@ export const MintInput = styled.div`
   position: relative;
   margin-top: 30px;
   align-items: center;
+
+  @media screen and (max-width: 767px) {
+    margin-top: 0px;
+    
+}
 `;
